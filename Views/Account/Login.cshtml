@@ -1,0 +1,42 @@
+﻿
+@{
+    ViewBag.Title = "Login";
+}
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<div>
+    <input type="text" id="userid" />
+    <input type="text" id="password" />
+    <input type="checkbox" id="rememberme" />
+    <button id="login">Login</button>
+</div>
+
+<script>
+
+    $(document).ready(function () {
+        $("#login").click(function () {
+            $("#message").html("Logging in...");
+            var data = {
+                "userid": $("#userid").val(),
+                "password": $("#password").val(),
+                "rememberme": $("#rememberme").prop("checked")
+            };
+            $.ajax({
+                url: "/Account/ValidateUser",
+                type: "POST",
+                data: JSON.stringify(data),
+                dataType: "json",
+                contentType: "application/json",
+                success: function (status) {
+                    //$("#message").html(status.Message);
+                    //if (status.Success) {
+                    //    window.location.href = status.TargetURL;
+                    //}
+                    console.log(status)
+                },
+                error: function () {
+                    $("#message").html("Error while authenticating user credentials!");
+            }
+            });
+        });
+    });
+    </script> 
